@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ title }}</title>
+</head>
+<body>
+  <h1>{{ title }}</h1>
+  <ul>
+    {{#each jsonData}}
+      <li>{{@key}}:</li>
+      <ul>
+        {{#each this}}
+          <li>{{@key}}: {{this}}</li>
+        {{/each}}
+      </ul>
+    {{/each}}
+  </ul>
+</body>
+</html>

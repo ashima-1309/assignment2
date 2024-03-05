@@ -1,0 +1,21 @@
+<!-- views/search-result.hbs -->
+
+{{> partials/header}}
+
+<h2>{{title}}</h2>
+
+{{#if error}}
+  <p>{{error}}</p>
+{{else}}
+  <div id="searchResults">
+    {{#each results}}
+      <div>
+        <p>Category: {{categoryName}}</p>
+        <p>Actual Price: ${{price}}</p>
+        <p>Rating: {{stars}}</p>
+      </div>
+    {{/each}}
+  </div>
+{{/if}}
+
+{{> partials/footer}}

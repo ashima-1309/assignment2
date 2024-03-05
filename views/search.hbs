@@ -1,0 +1,59 @@
+<form action="/data/search/prdName/result" method="get">
+  <label for="productName">Enter Product Name:</label>
+  <input type="text" id="productName" name="productName" required>
+  <input type="submit" value="Search">
+</form>
+<p>Entered Product Name: <span id="enteredProductName"></span></p>
+<div id="searchResults"></div>
+<script>
+  document.querySelector("form").addEventListener("submit", function(event) {
+    const enteredProductName = document.getElementById("productName").value;
+    document.getElementById("enteredProductName").textContent = enteredProductName;
+    event.preventDefault();
+   fetch(`/data/search/prdName/result?productName=${enteredProductName}`)
+  .then(response => {
+    // Clone the response before reading the body to prevent consuming it
+    const clonedResponse = response.clone();
+    console.log('Raw Response:', clonedResponse.text());
+    return response.json();
+  })
+  .then(data => {
+    const searchResultsDiv = document.getElementById("searchResults");
+    searchResultsDiv.innerHTML = "";
+    data.forEach(product => {
+      const productDiv = document.createElement("div");
+      productDiv.innerHTML = `<p>Category: ${product.categoryName}</p>` +
+        `<p>Actual Price: $${product.price}</p>` +
+        `<p>Rating: ${product.stars}</p>`;
+      searchResultsDiv.appendChild(productDiv);
+    });
+  })
+  .catch(error => {
+    console.error("Error fetching search results:", error);
+    const searchResultsDiv = document.getElementById("searchResults");
+    searchResultsDiv.innerHTML = "<p>Error fetching search results. Please try again.</p>";
+  });
+
+  .then(data => {
+    // Check if the data is an array and not empty
+    if (Array.isArray(data) && data.length > 0) {
+      const searchResultsDiv = document.getElementById("searchResults");
+      searchResultsDiv.innerHTML = "";
+      data.forEach(product => {
+        const productDiv = document.createElement("div");
+        productDiv.innerHTML = `<p>Category: ${product.categoryName}</p>` +
+          `<p>Actual Price: $${product.price}</p>` +
+          `<p>Rating: ${product.stars}</p>`;
+        searchResultsDiv.appendChild(productDiv);
+      });
+    } else {
+      throw new Error("No results found");
+    }
+  })
+  .catch(error => {
+    console.error("Error fetching search results:", error);
+    const searchResultsDiv = document.getElementById("searchResults");
+    searchResultsDiv.innerHTML = `<p>Error fetching search results. Please try again. Details: ${error.message}</p>`;
+  });
+  });
+</script>

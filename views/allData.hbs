@@ -1,0 +1,51 @@
+<!-- views/allData.hbs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <title>{{title}}</title>
+    <style>
+        .zero-reviews {
+            background-color: #FFD700; /* Change the color as needed */
+        }
+    </style>
+</head>
+<body>
+  
+
+    <main>
+        {{#if products}}
+            <table style="border-collapse: collapse; width: 100%;">
+                <thead>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <th style="padding: 10px; text-align: left;">Product Name</th>
+                        <th style="padding: 10px; text-align: left;">Category</th>
+                        <th style="padding: 10px; text-align: left;">Price</th>
+                        <th style="padding: 10px; text-align: left;">Stars</th>
+                        <th style="padding: 10px; text-align: left;">Reviews</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each (replaceZeroReviews products)}}
+                        {{#if (eq this.reviews "N/A")}}
+                            {{> highlight}}
+                        {{else}}
+                            {{> normal}}
+                        {{/if}}
+                    {{/each}}
+                </tbody>
+            </table>
+        {{else}}
+            <p>No products available.</p>
+        {{/if}}
+    </main>
+
+    <footer>
+        <p>ashirajwanshi3013@gmail.com</p>
+    </footer>
+</body>
+</html>
